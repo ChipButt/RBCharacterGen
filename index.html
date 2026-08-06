@@ -3,77 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="refresh" content="0; url=./600_second_dnd_character_player_v21.html">
   <title>Roll Britannia Character Generator</title>
-  <style>
-    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff}
-    #appFrame{display:block;width:100%;height:100dvh;border:0;background:#fff}
-  </style>
 </head>
 <body>
-  <iframe id="appFrame" src="./600_second_dnd_character_player_v22.html?v=20260806-2310" title="Roll Britannia Character Generator"></iframe>
-  <script>
-  const frame=document.getElementById('appFrame');
-  frame.addEventListener('load',()=>{
-    const doc=frame.contentDocument;
-    if(!doc)return;
-
-    const logo=doc.querySelector('.generator-logo');
-    if(logo){logo.src='./600 Second logo.png';logo.alt='Roll Britannia 600 Second D&D';}
-    const heading=doc.querySelector('.generator-brand h1');
-    if(heading)heading.textContent='Character Generator';
-    const back=doc.querySelector('.exit-play');
-    if(back)back.textContent='BACK TO EDIT';
-
-    const style=doc.createElement('style');
-    style.textContent=`
-      html,body{background:#fff!important;color:#111!important}
-      body:not(.play-mode){background:#fff!important;color:#111!important}
-      body:not(.play-mode) .app-shell{display:grid!important;grid-template-columns:minmax(320px,720px)!important;justify-content:center!important;min-height:100vh!important;background:#fff!important}
-      body:not(.play-mode) .controls{width:100%!important;padding:24px!important;overflow:visible!important;border-right:0!important;background:#fff!important;color:#111!important}
-      body:not(.play-mode) .preview-area{display:none!important}
-      body:not(.play-mode) .panel{background:#fff!important;border-color:#d7d7d7!important;color:#111!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important}
-      body:not(.play-mode) .generator-brand{background:#fff!important;border-color:#ddd!important}
-      body:not(.play-mode) .generator-logo{display:block!important;width:100%!important;max-width:620px!important;height:auto!important;margin:0 auto 12px!important;object-fit:contain!important}
-      body:not(.play-mode) .generator-brand h1{color:#000!important;text-align:center!important}
-      body:not(.play-mode) label{color:#333!important}
-      body:not(.play-mode) input,body:not(.play-mode) select,body:not(.play-mode) textarea{background:#fff!important;color:#111!important;border-color:#bbb!important}
-      body:not(.play-mode) input:focus,body:not(.play-mode) select:focus,body:not(.play-mode) textarea:focus{border-color:#666!important}
-      body:not(.play-mode) .point-buy-status,body:not(.play-mode) .character-summary{background:#f6f6f6!important;color:#111!important;border-color:#d0d0d0!important}
-      body:not(.play-mode) .secondary{background:#f1f1f1!important;color:#111!important;border-color:#c8c8c8!important}
-      body:not(.play-mode) .edit-collapse-toggle{color:#111!important}
-      .actions-panel{position:static!important}
-      .download-character-panel .character-summary{display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 14px!important;padding:14px 16px!important;text-align:center!important;font-size:16px!important;line-height:1.35!important;font-weight:800!important}
-      .download-character-panel #playBtn{width:100%!important}
-
-      body.play-mode{margin:0!important;overflow:hidden!important;background:#111!important}
-      body.play-mode .app-shell{display:block!important;min-height:100vh!important;background:#111!important}
-      body.play-mode .controls{display:none!important}
-      body.play-mode .preview-area{display:flex!important;position:fixed!important;inset:0!important;z-index:999!important;width:100vw!important;height:100dvh!important;min-height:0!important;padding:0!important;background:#111!important;overflow:hidden!important;align-items:center!important;justify-content:center!important}
-      body.play-mode .sheet-stage{display:flex!important;width:100vw!important;height:100dvh!important;min-height:0!important;flex:1!important;padding:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#111!important;box-shadow:none!important;align-items:center!important;justify-content:center!important}
-      body.play-mode #sheetWrap{position:relative!important;width:min(100vw,calc(100dvh * .707))!important;max-width:none!important;flex:0 0 auto!important;z-index:1000!important}
-      body.play-mode #sheetCanvas{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:auto!important;background:#fff!important;box-shadow:none!important}
-      body.play-mode #hpPlayControls{display:block!important;position:absolute!important;inset:0!important;z-index:1002!important;pointer-events:none!important}
-      body.play-mode .hp-step{width:26px!important;height:26px!important;padding:0!important;border:2px solid #D10300!important;border-radius:50%!important;background:#fff!important;color:#D10300!important;font-size:19px!important;line-height:1!important;box-shadow:0 2px 6px rgba(0,0,0,.2)!important;pointer-events:auto!important}
-      body.play-mode #hpMinusBtn{left:22%!important;top:28.75%!important;transform:translate(-50%,-50%)!important}
-      body.play-mode #hpPlusBtn{left:30%!important;top:28.75%!important;transform:translate(-50%,-50%)!important}
-      body.play-mode .exit-play{display:block!important;position:fixed!important;top:auto!important;bottom:12px!important;right:12px!important;z-index:1005!important;padding:8px 12px!important;border-radius:999px!important;background:rgba(20,20,20,.88)!important;color:#fff!important;font-size:11px!important;font-weight:800!important}
-    `;
-    doc.head.appendChild(style);
-
-    const formatSummary=()=>{
-      const summary=doc.getElementById('summary');
-      if(!summary)return;
-      const raw=(summary.textContent||'').trim();
-      if(!raw)return;
-      summary.textContent=raw.replace(/ • AC \d+ • HP \d+(?= • proficiency)/,'');
-    };
-    formatSummary();
-    const summary=doc.getElementById('summary');
-    if(summary)new MutationObserver(formatSummary).observe(summary,{childList:true,subtree:true,characterData:true});
-  });
-  </script>
+  <p><a href="./600_second_dnd_character_player_v21.html">Open Character Generator</a></p>
 </body>
 </html>
