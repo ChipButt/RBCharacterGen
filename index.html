@@ -13,20 +13,29 @@
 <div id="loading">Loading Character Generator…</div>
 <script>
 (async()=>{
-  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0015',{cache:'no-store'});
+  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0030',{cache:'no-store'});
   if(!response.ok) throw new Error('Could not load app source: '+response.status);
   let app=await response.text();
 
-  // Use the exact uploaded logo and current title.
+  // Exact uploaded logo and current title.
   app=app.replace(/<img class="generator-logo"[^>]*>/,'<img class="generator-logo" src="./600 Second logo.png" alt="Roll Britannia 600 Second D&amp;D">');
   app=app.replace(/<h1>[^<]*<\/h1>/,'<h1>Character Generator</h1>');
+  app=app.replace('id="generateBtn"','id="generateBtn" type="button"');
 
-  // Fix stale code left behind after the portrait/live-preview changes.
+  // Fix stale code left behind after portrait/live-preview changes.
   app=app.replace('if(!state || readyCount<3)return;','if(!state)return;');
   app=app.replace("els.fitBtn.addEventListener('click',()=>{document.getElementById('sheetStage').scrollTo({top:0,left:0,behavior:'smooth'});});",'');
   app=app.replace("if(!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(()=>{});",'');
   app=app.replace("if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});",'');
   app=app.replace('>EDIT CHARACTER</button>','>BACK TO EDIT</button>');
+
+  // Magic Missile: three automatically hitting missiles, with the listed damage PER missile.
+  app=app.replace("{name:'Magic Missile',ability:'CHA',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'CHA',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
+  app=app.replace("{name:'Magic Missile',ability:'INT',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'INT',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
+
+  app=app.replace("  function attackBonus(atk){\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }","  function attackBonus(atk){\n    if(atk.auto) return 'Auto';\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }");
+  app=app.replace("  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }","  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const spellAbility=classData[state.cls]?.spell;\n    const isSpellAttack=spellAbility && atk.ability===spellAbility;\n    if(isSpellAttack || atk.auto) return `${atk.dice} ${atk.type}`;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }");
+  app=app.replace("      if(m[2]==='bonus')return fmtMod(attackBonus(atk));","      if(m[2]==='bonus'){const b=attackBonus(atk);return typeof b==='number'?fmtMod(b):b;}");
 
   const css=`<style id="production-overrides">
 html,body{background:#fff!important;color:#111!important}
@@ -41,7 +50,7 @@ body:not(.play-mode) .generator-logo{display:block!important;width:100%!importan
 body:not(.play-mode) .generator-brand h1{color:#000!important;text-align:center!important;margin:0!important}
 body:not(.play-mode) label{color:#333!important}
 body:not(.play-mode) input,body:not(.play-mode) select,body:not(.play-mode) textarea{background:#fff!important;color:#111!important;border-color:#bbb!important}
-body:not(.play-mode) input:focus,body:not(.play-mode) select:focus,body:not(.play-mode) textarea:focus{border-color:#666!important}
+body:not(.play-mode) input:focus,body:not(.play-mode) select,body:not(.play-mode) textarea:focus{border-color:#666!important}
 body:not(.play-mode) .point-buy-status,body:not(.play-mode) .character-summary{background:#f6f6f6!important;color:#111!important;border-color:#d0d0d0!important}
 body:not(.play-mode) .secondary{background:#f1f1f1!important;color:#111!important;border-color:#c8c8c8!important}
 body:not(.play-mode) .edit-collapse-toggle{color:#111!important}
@@ -64,20 +73,20 @@ body.play-mode .exit-play{display:block!important;position:fixed!important;top:a
 </style>`;
   app=app.replace('</head>',css+'</head>');
 
+  // Format the CURRENT summary every time it changes. Do not cache the first character.
   const summaryScript=`<script id="summary-layout-fix">
 (function(){
   function formatSummary(){
     const summary=document.getElementById('summary');
-    if(!summary)return;
-    const raw=(summary.dataset.rawSummary||summary.textContent||'').trim();
+    if(!summary || summary.querySelector('.summary-name'))return;
+    const raw=(summary.textContent||'').trim();
     if(!raw)return;
-    if(summary.querySelector('.summary-name'))return;
     const marker=' • Level ';
     const p=raw.indexOf(marker);
     if(p<0)return;
-    summary.dataset.rawSummary=raw;
     const name=raw.slice(0,p).trim();
-    const details='Level '+raw.slice(p+marker.length).trim();
+    let details='Level '+raw.slice(p+marker.length).trim();
+    details=details.replace(/ • AC \\d+ • HP \\d+(?= • proficiency)/,'');
     summary.innerHTML='';
     const nameEl=document.createElement('span');
     nameEl.className='summary-name';
@@ -91,9 +100,7 @@ body.play-mode .exit-play{display:block!important;position:fixed!important;top:a
     const summary=document.getElementById('summary');
     if(!summary)return;
     formatSummary();
-    new MutationObserver(()=>{
-      if(!summary.querySelector('.summary-name'))formatSummary();
-    }).observe(summary,{childList:true,subtree:true,characterData:true});
+    new MutationObserver(()=>formatSummary()).observe(summary,{childList:true,subtree:true,characterData:true});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
