@@ -13,7 +13,7 @@
 <div id="loading">Loading Character Generator…</div>
 <script>
 (async()=>{
-  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260806-2330',{cache:'no-store'});
+  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0015',{cache:'no-store'});
   if(!response.ok) throw new Error('Could not load app source: '+response.status);
   let app=await response.text();
 
@@ -45,7 +45,9 @@ body:not(.play-mode) input:focus,body:not(.play-mode) select:focus,body:not(.pla
 body:not(.play-mode) .point-buy-status,body:not(.play-mode) .character-summary{background:#f6f6f6!important;color:#111!important;border-color:#d0d0d0!important}
 body:not(.play-mode) .secondary{background:#f1f1f1!important;color:#111!important;border-color:#c8c8c8!important}
 body:not(.play-mode) .edit-collapse-toggle{color:#111!important}
-.download-character-panel .character-summary{display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 14px!important;padding:14px 16px!important;text-align:center!important;font-size:16px!important;color:#111!important}
+.download-character-panel .character-summary{display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 14px!important;padding:14px 16px!important;text-align:center!important;color:#111!important}
+.character-summary .summary-name{display:block!important;width:100%!important;font-size:28px!important;line-height:1.08!important;font-weight:900!important;color:#111!important;margin:0 0 7px!important}
+.character-summary .summary-details{display:block!important;width:100%!important;font-size:16px!important;line-height:1.3!important;font-weight:800!important;color:#333!important}
 .download-character-panel #playBtn{width:100%!important}
 body.play-mode{margin:0!important;overflow:hidden!important;background:#111!important}
 body.play-mode .app-shell{display:block!important;min-height:100vh!important;background:#111!important}
@@ -61,6 +63,42 @@ body.play-mode #hpPlusBtn{left:29.4%!important;top:28.8%!important;transform:tra
 body.play-mode .exit-play{display:block!important;position:fixed!important;top:auto!important;bottom:12px!important;right:12px!important;z-index:1005!important;padding:8px 12px!important;border-radius:999px!important;background:rgba(20,20,20,.88)!important;color:#fff!important;font-size:11px!important;font-weight:800!important}
 </style>`;
   app=app.replace('</head>',css+'</head>');
+
+  const summaryScript=`<script id="summary-layout-fix">
+(function(){
+  function formatSummary(){
+    const summary=document.getElementById('summary');
+    if(!summary)return;
+    const raw=(summary.dataset.rawSummary||summary.textContent||'').trim();
+    if(!raw)return;
+    if(summary.querySelector('.summary-name'))return;
+    const marker=' • Level ';
+    const p=raw.indexOf(marker);
+    if(p<0)return;
+    summary.dataset.rawSummary=raw;
+    const name=raw.slice(0,p).trim();
+    const details='Level '+raw.slice(p+marker.length).trim();
+    summary.innerHTML='';
+    const nameEl=document.createElement('span');
+    nameEl.className='summary-name';
+    nameEl.textContent=name;
+    const detailsEl=document.createElement('span');
+    detailsEl.className='summary-details';
+    detailsEl.textContent=details;
+    summary.append(nameEl,detailsEl);
+  }
+  function start(){
+    const summary=document.getElementById('summary');
+    if(!summary)return;
+    formatSummary();
+    new MutationObserver(()=>{
+      if(!summary.querySelector('.summary-name'))formatSummary();
+    }).observe(summary,{childList:true,subtree:true,characterData:true});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+<\/script>`;
+  app=app.replace('</body>',summaryScript+'</body>');
 
   document.open();
   document.write(app);
