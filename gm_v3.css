@@ -70,7 +70,7 @@ body.run-mode .run-view{display:flex;align-items:center;justify-content:center}
 .setup-text{left:9.900990%;top:16.500000%;width:31.117397%;height:18.850000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:center;color:#111111;}
 .npc-heading{left:49.504950%;top:13.000000%;width:38.967468%;height:6.000000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1.05;font-weight:900;font-style:italic;text-align:left;color:#ffffff;}
 .npc-name-role{left:49.504950%;top:15.500000%;width:42.079208%;height:2.300000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.15;font-weight:900;font-style:normal;text-align:left;color:#ffffff;}
-.npc-traits{left:49.504950%;top:18.000000%;width:41.513437%;height:12.700000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:650;font-style:normal;text-align:left;color:#ffffff;}
+.npc-traits{left:49.504950%;top:18.000000%;width:41.513437%;height:12.700000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:650;font-style:normal;text-align:center;color:#ffffff;}
 .npc-quote{left:46.039604%;top:30.800000%;width:49.575672%;height:6.900000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.16;font-weight:900;font-style:italic;text-align:center;color:#ffffff;}
 .story-heading{left:12.729844%;top:41.500000%;width:28.288543%;height:2.500000%;z-index:3;font-size:min(2.97030vw,2.10000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#111111;}
 .story-beats{left:8.132956%;top:44.850000%;width:38.048091%;height:22.200000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:left;color:#000000;}
