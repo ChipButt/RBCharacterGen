@@ -49,28 +49,32 @@ body.run-mode .run-view{display:flex;align-items:center;justify-content:center}
 .card-modal.show{display:flex}
 .card-modal img{max-width:94vw;max-height:94dvh;object-fit:contain}
 .modal-close{position:absolute;top:12px;right:12px;border:0;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;background:#fff;color:#111}
-.roll-logo{left:7.284300%;top:3.400000%;width:36.067893%;height:3.850000%;z-index:2;object-fit:contain;opacity:1;}
-.dnd-title{left:54.879774%;top:3.500000%;width:34.653465%;height:3.600000%;z-index:2;object-fit:contain;opacity:1;}
-.top-stroke{left:50.565771%;top:37.700000%;width:43.776521%;height:5.350000%;z-index:1;object-fit:fill;opacity:1;}
-.middle-stroke{left:3.818953%;top:12.000000%;width:42.079208%;height:22.750000%;z-index:1;object-fit:fill;opacity:1;}
-.monster-tab{left:76.308345%;top:55.350000%;width:13.719943%;height:4.100000%;z-index:2;object-fit:fill;opacity:1;}
-.puzzle-tab{left:61.598303%;top:55.150000%;width:13.083451%;height:4.450000%;z-index:2;object-fit:fill;opacity:1;}
-.bottom-stroke{left:0.000000%;top:36.850000%;width:55.728430%;height:63.150000%;z-index:1;object-fit:fill;opacity:1;}
-.sheet-title{left:5.728430%;top:8.650000%;width:86.421499%;height:4.700000%;z-index:3;font-size:min(3.04102vw,2.15000dvh);line-height:1.05;font-weight:900;font-style:normal;text-align:center;color:#d10300;}
-.setup-heading{left:10.254597%;top:13.950000%;width:29.632249%;height:2.700000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1.05;font-weight:900;font-style:italic;text-align:left;color:#111111;}
-.setup-text{left:10.042433%;top:16.700000%;width:31.117397%;height:17.650000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:left;color:#111111;}
-.npc-heading{left:49.504950%;top:13.100000%;width:38.967468%;height:6.000000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1.05;font-weight:900;font-style:italic;text-align:left;color:#ffffff;}
-.npc-name-role{left:49.222065%;top:15.850000%;width:42.079208%;height:2.300000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.15;font-weight:900;font-style:normal;text-align:left;color:#ffffff;}
-.npc-traits{left:49.009901%;top:18.000000%;width:41.513437%;height:12.700000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:650;font-style:normal;text-align:left;color:#ffffff;}
-.npc-quote{left:46.039604%;top:30.800000%;width:49.575672%;height:6.900000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.16;font-weight:900;font-style:italic;text-align:center;color:#ffffff;}
-.story-heading{left:14.073550%;top:40.950000%;width:23.055163%;height:2.500000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#111111;}
-.story-beats{left:8.132956%;top:44.850000%;width:38.048091%;height:22.200000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:left;color:#000000;}
-.pressure-heading{left:52.050919%;top:39.650000%;width:42.503536%;height:2.150000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#000000;}
-.pressure-list{left:51.626591%;top:43.800000%;width:41.159830%;height:12.200000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.2;font-weight:650;font-style:normal;text-align:center;color:#f5ff5a;}
-.hurry-heading{left:11.527581%;top:77.850000%;width:51.131542%;height:2.100000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#000000;}
-.hurry-list{left:8.132956%;top:80.650000%;width:40.169731%;height:15.300000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.2;font-weight:650;font-style:normal;text-align:left;color:#000000;}
-.ending-text{left:7.496464%;top:67.550000%;width:41.513437%;height:8.950000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:900;font-style:normal;text-align:left;color:#000000;}
-.puzzle-card{left:56.011315%;top:59.750000%;width:39.250354%;height:37.000000%;z-index:4;object-fit:contain;opacity:1;}
-.monster-card{left:56.364922%;top:59.950000%;width:39.179632%;height:36.900000%;z-index:4;object-fit:contain;opacity:1;}
-.tap-note{left:58.132956%;top:95.750000%;width:35.007072%;height:1.400000%;z-index:4;font-size:min(0.77793vw,0.55000dvh);line-height:1;font-weight:800;font-style:normal;text-align:center;color:#333333;}
+
+/* Layout exported 2026-08-07 04:34 — 1414 × 2000 */
+.roll-logo{left:7.779349%;top:3.500000%;width:36.067893%;height:3.850000%;z-index:2;object-fit:contain;opacity:1}
+.dnd-title{left:55.869873%;top:3.500000%;width:34.653465%;height:3.600000%;z-index:2;object-fit:contain;opacity:1}
+.top-stroke{left:50.565771%;top:37.700000%;width:43.776521%;height:5.350000%;z-index:1;object-fit:fill;opacity:1}
+.middle-stroke{left:3.818953%;top:12.000000%;width:42.079208%;height:25.700000%;z-index:1;object-fit:fill;opacity:1}
+.monster-tab{left:76.308345%;top:55.350000%;width:13.719943%;height:4.100000%;z-index:2;object-fit:fill;opacity:1}
+.puzzle-tab{left:61.598303%;top:55.150000%;width:13.083451%;height:4.450000%;z-index:2;object-fit:fill;opacity:1}
+.bottom-stroke{left:0;top:36.850000%;width:55.728430%;height:63.150000%;z-index:1;object-fit:fill;opacity:1}
+
+.sheet-title{left:5.728430%;top:8.650000%;width:86.421499%;height:4.700000%;z-index:3;font-size:min(3.04102vw,2.15000dvh);line-height:1.05;font-weight:900;font-style:normal;text-align:center;color:#d10300}
+.setup-heading{left:12.022631%;top:14.000000%;width:28.288543%;height:2.700000%;z-index:3;font-size:min(2.89958vw,2.05000dvh);line-height:1.05;font-weight:900;font-style:italic;text-align:left;color:#111111}
+.setup-text{left:9.900990%;top:16.500000%;width:31.117397%;height:18.850000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:center;color:#111111}
+.npc-heading{left:49.504950%;top:13.000000%;width:38.967468%;height:6.000000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1.05;font-weight:900;font-style:italic;text-align:left;color:#ffffff}
+.npc-name-role{left:49.504950%;top:15.500000%;width:42.079208%;height:2.300000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.15;font-weight:900;font-style:normal;text-align:left;color:#ffffff}
+.npc-traits{left:49.504950%;top:18.000000%;width:41.513437%;height:12.700000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:650;font-style:normal;text-align:left;color:#ffffff}
+.npc-quote{left:46.039604%;top:30.800000%;width:49.575672%;height:6.900000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.16;font-weight:900;font-style:italic;text-align:center;color:#ffffff}
+.story-heading{left:12.729844%;top:41.500000%;width:28.288543%;height:2.500000%;z-index:3;font-size:min(2.97030vw,2.10000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#111111}
+.story-beats{left:8.132956%;top:44.850000%;width:38.048091%;height:22.200000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.22;font-weight:650;font-style:normal;text-align:left;color:#000000}
+.pressure-heading{left:52.050919%;top:39.650000%;width:42.503536%;height:2.150000%;z-index:3;font-size:min(2.47525vw,1.75000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#000000}
+.pressure-list{left:51.626591%;top:43.800000%;width:41.159830%;height:12.200000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.2;font-weight:650;font-style:normal;text-align:center;color:#f5ff5a}
+.hurry-heading{left:8.486563%;top:78.500000%;width:51.131542%;height:2.100000%;z-index:3;font-size:min(2.33380vw,1.65000dvh);line-height:1;font-weight:900;font-style:italic;text-align:left;color:#000000}
+.hurry-list{left:8.486563%;top:82.000000%;width:40.169731%;height:14.000000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.2;font-weight:650;font-style:normal;text-align:left;color:#000000}
+.ending-text{left:7.496464%;top:67.550000%;width:41.513437%;height:8.950000%;z-index:3;font-size:min(2.12164vw,1.50000dvh);line-height:1.18;font-weight:900;font-style:normal;text-align:left;color:#000000}
+.puzzle-card{left:56.011315%;top:59.750000%;width:39.250354%;height:37.000000%;z-index:4;object-fit:contain;opacity:1}
+.monster-card{left:56.364922%;top:59.950000%;width:39.179632%;height:36.900000%;z-index:4;object-fit:contain;opacity:1}
+.tap-note{left:57.850071%;top:95.350000%;width:35.007072%;height:1.400000%;z-index:4;font-size:min(0.77793vw,0.55000dvh);line-height:1;font-weight:800;font-style:normal;text-align:center;color:#333333}
+
 @media(max-width:650px){.grid2,.actions{grid-template-columns:1fr}.builder{padding:14px 12px 34px}h1{font-size:28px}}
