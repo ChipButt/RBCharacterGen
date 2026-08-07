@@ -87,28 +87,31 @@ function sel(){
 
 function previewCard(target,kind,item){
   target.innerHTML=`<img src="${item.image}" alt="${item.name}">`;
-  target.title=`${kind}: ${item.name}. Tap to change.`;
+  target.title=`${kind}: ${item.name}`;
 }
 
 function refresh(){
   const s=sel();
   previewCard($('puzzlePreview'),'Puzzle card',s.puzzle);
   previewCard($('monsterPreview'),'Monster card',s.monster);
+  $('puzzleChoice').textContent=s.puzzle.name;
+  $('monsterChoice').textContent=s.monster.name;
   $('puzzleOption').classList.toggle('disabled',!s.usePuzzle);
   $('monsterOption').classList.toggle('disabled',!s.useMonster);
   $('puzzleSelect').disabled=!s.usePuzzle;
   $('monsterSelect').disabled=!s.useMonster;
+  ['puzzlePrev','puzzleNext'].forEach(id=>$(id).disabled=!s.usePuzzle);
+  ['monsterPrev','monsterNext'].forEach(id=>$(id).disabled=!s.useMonster);
   $('bothWarning').classList.toggle('show',s.usePuzzle&&s.useMonster);
   $('selectionError').classList.remove('show');
 }
 
 ['settingSelect','problemSelect','puzzleSelect','monsterSelect','usePuzzle','useMonster'].forEach(id=>$(id).addEventListener('change',refresh));
-
-function cycleSelection(selectId,list){
- const el=$(selectId); el.value=((+el.value)+1)%list.length; refresh();
-}
-$('puzzlePreview').addEventListener('click',()=>{ if($('usePuzzle').checked) cycleSelection('puzzleSelect',PUZZLES); });
-$('monsterPreview').addEventListener('click',()=>{ if($('useMonster').checked) cycleSelection('monsterSelect',MONSTERS); });
+function shiftSelection(selectId,list,delta){const el=$(selectId);el.value=((+el.value+delta)%list.length+list.length)%list.length;refresh()}
+$('puzzlePrev').onclick=()=>shiftSelection('puzzleSelect',PUZZLES,-1);
+$('puzzleNext').onclick=()=>shiftSelection('puzzleSelect',PUZZLES,1);
+$('monsterPrev').onclick=()=>shiftSelection('monsterSelect',MONSTERS,-1);
+$('monsterNext').onclick=()=>shiftSelection('monsterSelect',MONSTERS,1);
 
 $('randomBtn').onclick=()=>{
   $('settingSelect').value=Math.floor(Math.random()*SETTINGS.length);
