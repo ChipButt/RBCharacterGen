@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>600 Second D&D — Game Master</title>
-<link rel="stylesheet" href="./gm_v3.css?v=20260807-0600">
+<link rel="stylesheet" href="./gm_v3.css?v=20260807-0615">
 </head>
 <body>
 
@@ -15,7 +15,28 @@
 <h1>Game Master Story Generator</h1>
 <p class="lead">Build a ten-minute adventure, choose a puzzle, a battle, or both, then run it from a single GM sheet.</p>
 <section class="panel"><h2>1. Story</h2><div class="grid2"><label>Location / Setting<select id="settingSelect"></select></label><label>Problem<select id="problemSelect"></select></label></div></section>
-<section class="panel"><h2>2. Obstacles</h2><div class="grid2"><div class="option" id="puzzleOption"><label class="toggle"><input id="usePuzzle" type="checkbox" checked> Puzzle card</label><select id="puzzleSelect" class="hidden-select"></select><button class="card-preview card-select-preview" id="puzzlePreview" type="button" aria-label="Selected puzzle card"></button></div><div class="option disabled" id="monsterOption"><label class="toggle"><input id="useMonster" type="checkbox"> Monster card</label><select id="monsterSelect" class="hidden-select"></select><button class="card-preview card-select-preview" id="monsterPreview" type="button" aria-label="Selected monster card"></button></div></div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
+<section class="panel"><h2>2. Obstacles</h2><div class="grid2">
+  <div class="option" id="puzzleOption">
+    <label class="toggle"><input id="usePuzzle" type="checkbox" checked> Puzzle card</label>
+    <select id="puzzleSelect" class="hidden-select"></select>
+    <div class="card-selector" aria-label="Choose puzzle card">
+      <button class="selector-arrow" id="puzzlePrev" type="button" aria-label="Previous puzzle">‹</button>
+      <div class="selector-name" id="puzzleChoice">The Missing Torch</div>
+      <button class="selector-arrow" id="puzzleNext" type="button" aria-label="Next puzzle">›</button>
+    </div>
+    <div class="card-preview" id="puzzlePreview" aria-label="Selected puzzle card"></div>
+  </div>
+  <div class="option disabled" id="monsterOption">
+    <label class="toggle"><input id="useMonster" type="checkbox"> Monster card</label>
+    <select id="monsterSelect" class="hidden-select"></select>
+    <div class="card-selector" aria-label="Choose monster card">
+      <button class="selector-arrow" id="monsterPrev" type="button" aria-label="Previous monster">‹</button>
+      <div class="selector-name" id="monsterChoice">Cave Gobbler</div>
+      <button class="selector-arrow" id="monsterNext" type="button" aria-label="Next monster">›</button>
+    </div>
+    <div class="card-preview" id="monsterPreview" aria-label="Selected monster card"></div>
+  </div>
+</div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
 </main>
 
 <section class="run-view" id="runView">
@@ -62,6 +83,6 @@
 
 <div class="card-modal" id="cardModal"><button class="modal-close" id="modalClose" type="button">CLOSE</button><img id="modalImage" alt="Selected encounter card"></div>
 
-<script src="./gm_v3.js?v=20260807-0600"></script>
+<script src="./gm_v3.js?v=20260807-0615"></script>
 </body>
 </html>
