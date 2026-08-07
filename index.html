@@ -2,147 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Roll Britannia Character Generator</title>
-  <style>html,body{margin:0;min-height:100%;background:#fff;font-family:Arial,Helvetica,sans-serif}#loading{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:800}</style>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Roll Britannia 600 Second D&D</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#111}
+    body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px}
+    .shell{width:min(760px,100%);text-align:center}
+    .logo{display:block;width:min(620px,100%);height:auto;margin:0 auto 20px}
+    h1{font-size:clamp(28px,5vw,42px);margin:0 0 8px;font-weight:900}
+    .sub{margin:0 auto 28px;color:#555;font-weight:700;font-size:16px}
+    .roles{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .role{display:flex;flex-direction:column;justify-content:space-between;min-height:230px;padding:26px;border:2px solid #e0e0e0;border-radius:18px;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.07);text-decoration:none;color:#111;transition:.16s transform,.16s border-color,.16s box-shadow}
+    .role:hover,.role:focus-visible{transform:translateY(-2px);border-color:#D10300;box-shadow:0 12px 34px rgba(0,0,0,.11);outline:none}
+    .icon{font-size:48px;line-height:1;margin-bottom:15px}
+    .role h2{font-size:30px;margin:0 0 10px;font-weight:900}
+    .role p{margin:0;color:#555;font-size:15px;line-height:1.45;font-weight:600}
+    .go{margin-top:24px;background:#D10300;color:#fff;border-radius:10px;padding:13px 16px;font-size:15px;font-weight:900;letter-spacing:.02em}
+    @media(max-width:620px){body{align-items:flex-start;padding-top:max(24px,env(safe-area-inset-top))}.roles{grid-template-columns:1fr}.role{min-height:190px;padding:22px}.icon{font-size:40px}.role h2{font-size:27px}}
+  </style>
 </head>
 <body>
-<div id="loading">Loading Character Generator…</div>
-<script>
-(async()=>{
-  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0105',{cache:'no-store'});
-  if(!response.ok) throw new Error('Could not load app source: '+response.status);
-  let app=await response.text();
-
-  app=app.replace(/<img class="generator-logo"[^>]*>/,'<img class="generator-logo" src="./600 Second logo.png" alt="Roll Britannia 600 Second D&amp;D">');
-  app=app.replace(/<h1>[^<]*<\/h1>/,'<h1>Character Generator</h1>');
-  app=app.replace('id="generateBtn"','id="generateBtn" type="button"');
-
-  app=app.replace('if(!state || readyCount<3)return;','if(!state)return;');
-  app=app.replace("els.fitBtn.addEventListener('click',()=>{document.getElementById('sheetStage').scrollTo({top:0,left:0,behavior:'smooth'});});",'');
-  app=app.replace("if(!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(()=>{});",'');
-  app=app.replace("if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});",'');
-  app=app.replace('>EDIT CHARACTER</button>','>BACK TO EDIT</button>');
-
-  app=app.replace('  function preloadSpeciesPortraits(){', `  function keyOutGreen(img){
-    const c=document.createElement('canvas');
-    c.width=img.naturalWidth||img.width;
-    c.height=img.naturalHeight||img.height;
-    const gtx=c.getContext('2d',{willReadFrequently:true});
-    gtx.drawImage(img,0,0);
-    const imageData=gtx.getImageData(0,0,c.width,c.height);
-    const d=imageData.data;
-    for(let i=0;i<d.length;i+=4){
-      const r=d[i], g=d[i+1], b=d[i+2], a=d[i+3];
-      const dominance=g-Math.max(r,b);
-      if(a>0 && g>105 && r<145 && b<145 && dominance>34){
-        const strength=Math.min(1,(dominance-34)/90);
-        d[i+1]=Math.round(g*(1-strength*.35));
-        d[i]=Math.min(255,Math.round(r+strength*10));
-        d[i+2]=Math.min(255,Math.round(b+strength*8));
-        if(dominance>55) d[i+3]=Math.round(a*(1-strength*.92));
-      }
-    }
-    gtx.putImageData(imageData,0,0);
-    return c;
-  }
-
-  function preloadSpeciesPortraits(){`);
-  app=app.replace('img.onload=()=>{ speciesPortraits[species]=img; resolve(); };','img.onload=()=>{ speciesPortraits[species]=keyOutGreen(img); resolve(); };');
-
-  app=app.replace(
-    'const s=Math.max(w/iw,h/ih); const dw=iw*s, dh=ih*s;\\n    ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh);',
-    'const s=Math.min(w/iw,h/ih)*0.96; const dw=iw*s, dh=ih*s;\\n    const cx=x+w*0.54, cy=y+h*0.47;\\n    ctx.drawImage(img,cx-dw/2,cy-dh/2,dw,dh);'
-  );
-  app=app.replace('ctx.rect(505,22,909,925);','ctx.rect(600,22,814,925);');
-  app=app.replace('drawCoverImage(portraitImg,505,22,909,925);','drawCoverImage(portraitImg,600,22,814,925);');
-
-  app=app.replace("{name:'Magic Missile',ability:'CHA',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'CHA',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
-  app=app.replace("{name:'Magic Missile',ability:'INT',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'INT',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
-
-  app=app.replace("  function attackBonus(atk){\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }","  function attackBonus(atk){\n    if(atk.auto) return 'Auto';\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }");
-  app=app.replace("  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }","  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const spellAbility=classData[state.cls]?.spell;\n    const isSpellAttack=spellAbility && atk.ability===spellAbility;\n    if(isSpellAttack || atk.auto) return `${atk.dice} ${atk.type}`;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }");
-  app=app.replace("      if(m[2]==='bonus')return fmtMod(attackBonus(atk));","      if(m[2]==='bonus'){const b=attackBonus(atk);return typeof b==='number'?fmtMod(b):b;}");
-
-  const css=`<style id="production-overrides">
-html,body{background:#fff!important;color:#111!important}
-body:not(.play-mode){background:#fff!important;color:#111!important;overflow-x:hidden!important;overflow-y:auto!important}
-body:not(.play-mode) .app-shell{display:grid!important;grid-template-columns:minmax(320px,720px)!important;justify-content:center!important;min-height:100vh!important;background:#fff!important}
-body:not(.play-mode) .controls{width:100%!important;padding:24px!important;overflow:visible!important;border-right:0!important;background:#fff!important;color:#111!important}
-body:not(.play-mode) .preview-area{display:none!important}
-body:not(.play-mode) .panel{position:static!important;background:#fff!important;border-color:#d7d7d7!important;color:#111!important;box-shadow:0 5px 18px rgba(0,0,0,.06)!important}
-body:not(.play-mode) .actions-panel{position:static!important;bottom:auto!important}
-body:not(.play-mode) .generator-brand{background:#fff!important;border:0!important;padding:0 0 16px!important}
-body:not(.play-mode) .generator-logo{display:block!important;width:100%!important;max-width:620px!important;height:auto!important;margin:0 auto 14px!important;object-fit:contain!important}
-body:not(.play-mode) .generator-brand h1{color:#000!important;text-align:center!important;margin:0!important}
-body:not(.play-mode) label{color:#333!important}
-body:not(.play-mode) input,body:not(.play-mode) select,body:not(.play-mode) textarea{background:#fff!important;color:#111!important;border-color:#bbb!important}
-body:not(.play-mode) input:focus,body:not(.play-mode) select:focus,body:not(.play-mode) textarea:focus{border-color:#666!important}
-body:not(.play-mode) .point-buy-status,body:not(.play-mode) .character-summary{background:#f6f6f6!important;color:#111!important;border-color:#d0d0d0!important}
-body:not(.play-mode) .secondary{background:#f1f1f1!important;color:#111!important;border-color:#c8c8c8!important}
-body:not(.play-mode) .edit-collapse-toggle{color:#111!important}
-.download-character-panel .character-summary{display:block!important;width:100%!important;box-sizing:border-box!important;margin:0 0 14px!important;padding:14px 16px!important;text-align:center!important;color:#111!important}
-.character-summary .summary-name{display:block!important;width:100%!important;font-size:28px!important;line-height:1.08!important;font-weight:900!important;color:#111!important;margin:0 0 7px!important}
-.character-summary .summary-details{display:block!important;width:100%!important;font-size:16px!important;line-height:1.3!important;font-weight:800!important;color:#333!important}
-.download-character-panel #playBtn{width:100%!important}
-body.play-mode{margin:0!important;overflow:hidden!important;background:#111!important}
-body.play-mode .app-shell{display:block!important;min-height:100vh!important;background:#111!important}
-body.play-mode .controls{display:none!important}
-body.play-mode .preview-area{display:flex!important;position:fixed!important;inset:0!important;z-index:999!important;width:100vw!important;height:100dvh!important;min-height:0!important;padding:0!important;background:#111!important;overflow:hidden!important;align-items:center!important;justify-content:center!important}
-body.play-mode .sheet-stage{display:flex!important;width:100vw!important;height:100dvh!important;min-height:0!important;flex:1!important;padding:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#111!important;box-shadow:none!important;align-items:center!important;justify-content:center!important}
-body.play-mode #sheetWrap{position:relative!important;width:min(100vw,calc(100dvh * .707))!important;max-width:none!important;flex:0 0 auto!important;z-index:1000!important}
-body.play-mode #sheetCanvas{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:auto!important;background:#fff!important;box-shadow:none!important}
-body.play-mode #hpPlayControls{display:block!important;position:absolute!important;inset:0!important;z-index:1002!important;pointer-events:none!important}
-body.play-mode .hp-step{width:28px!important;height:18px!important;aspect-ratio:auto!important;padding:0!important;border:2px solid #D10300!important;border-radius:4px!important;background:#fff!important;color:#D10300!important;font-size:16px!important;line-height:16px!important;box-shadow:0 2px 5px rgba(0,0,0,.18)!important;pointer-events:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important}
-body.play-mode #hpMinusBtn{left:12.0%!important;top:28.8%!important;transform:translate(-50%,-50%)!important}
-body.play-mode #hpPlusBtn{left:27.0%!important;top:28.8%!important;transform:translate(-50%,-50%)!important}
-body.play-mode .exit-play{display:block!important;position:fixed!important;top:auto!important;bottom:12px!important;right:12px!important;z-index:1005!important;padding:8px 12px!important;border-radius:999px!important;background:rgba(20,20,20,.88)!important;color:#fff!important;font-size:11px!important;font-weight:800!important}
-</style>`;
-  app=app.replace('</head>',css+'</head>');
-
-  const summaryScript=`<script id="summary-layout-fix">
-(function(){
-  function formatSummary(){
-    const summary=document.getElementById('summary');
-    if(!summary || summary.querySelector('.summary-name'))return;
-    const raw=(summary.textContent||'').trim();
-    if(!raw)return;
-    const marker=' • Level ';
-    const p=raw.indexOf(marker);
-    if(p<0)return;
-    const name=raw.slice(0,p).trim();
-    let details='Level '+raw.slice(p+marker.length).trim();
-    details=details.replace(/ • AC \\d+ • HP \\d+(?= • proficiency)/,'');
-    summary.innerHTML='';
-    const nameEl=document.createElement('span');
-    nameEl.className='summary-name';
-    nameEl.textContent=name;
-    const detailsEl=document.createElement('span');
-    detailsEl.className='summary-details';
-    detailsEl.textContent=details;
-    summary.append(nameEl,detailsEl);
-  }
-  function start(){
-    const summary=document.getElementById('summary');
-    if(!summary)return;
-    formatSummary();
-    new MutationObserver(()=>formatSummary()).observe(summary,{childList:true,subtree:true,characterData:true});
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
-})();
-<\/script>`;
-  app=app.replace('</body>',summaryScript+'</body>');
-
-  document.open();
-  document.write(app);
-  document.close();
-})().catch(err=>{
-  console.error(err);
-  document.getElementById('loading').textContent='Could not load the Character Generator. Please refresh.';
-});
-</script>
+  <main class="shell">
+    <img class="logo" src="./600 Second logo.png" alt="Roll Britannia 600 Second D&D">
+    <h1>Choose Your Role</h1>
+    <p class="sub">Build what you need, then get straight into the 600-second game.</p>
+    <div class="roles">
+      <a class="role" href="./player.html">
+        <div>
+          <div class="icon" aria-hidden="true">⚔️</div>
+          <h2>Player</h2>
+          <p>Generate a playable character, make quick edits, then open the full-screen character sheet.</p>
+        </div>
+        <div class="go">BUILD A CHARACTER</div>
+      </a>
+      <a class="role" href="./gm.html">
+        <div>
+          <div class="icon" aria-hidden="true">🎲</div>
+          <h2>Game Master</h2>
+          <p>Build a fast story from a setting, problem, puzzle and/or monster, then run it from a one-page GM guide.</p>
+        </div>
+        <div class="go">BUILD A STORY</div>
+      </a>
+    </div>
+  </main>
 </body>
 </html>
