@@ -36,7 +36,11 @@
     </div>
     <div class="card-preview" id="monsterPreview" aria-label="Selected monster card"></div>
   </div>
-</div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
+</div>
+<div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div>
+<div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div>
+<button class="btn" id="downloadBuilder" type="button" style="width:100%;margin-top:9px;background:#111;color:#fff;border:1px solid #111">DOWNLOAD GM PNGs</button>
+<div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
 </main>
 
 <section class="run-view" id="runView">
@@ -78,7 +82,7 @@
     <img class="encounter-card monster-card" id="runMonsterCard" alt="Selected monster card" hidden>
     <div class="sheet-text tap-note" id="tapNote">Tap a card to enlarge</div>
   </div>
-  <button id="downloadRun" type="button" style="position:fixed;left:12px;bottom:12px;z-index:1100;background:#D10300;color:#fff;border:1px solid #9f0200;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;cursor:pointer">DOWNLOAD GM PNGs</button>
+  <button id="downloadRun" type="button" hidden>DOWNLOAD GM PNGs</button>
   <button class="exit-run" id="exitRun" type="button">BACK TO BUILDER</button>
 </section>
 
@@ -87,5 +91,6 @@
 <script src="./gm_v3.js?v=20260807-0615"></script>
 <script src="./gm_fit.js?v=20260807-0715"></script>
 <script src="./gm_export.js?v=20260807-0810"></script>
+<script src="./gm_export_builder.js?v=20260807-0830"></script>
 </body>
 </html>
