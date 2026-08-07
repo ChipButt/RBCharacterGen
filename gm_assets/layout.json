@@ -1,0 +1,19 @@
+{
+  "gmSheet": {
+    "canvas": {"width": 1414, "height": 2000},
+    "elements": {
+      "logo":{"x":280,"y":140,"w":510,"h":210},
+      "titleSwipe":{"x":70,"y":448,"w":1260,"h":250},
+      "introBox":{"x":192,"y":688,"w":1018,"h":455},
+      "tagLeft":{"x":126,"y":978,"w":109,"h":103},
+      "infoBoxLarge":{"x":500,"y":944,"w":298,"h":133},
+      "infoBoxSmall":{"x":738,"y":947,"w":271,"h":130},
+      "storyPanel":{"x":83,"y":1162,"w":1143,"h":757}
+    }
+  },
+  "playerHPButtons": {
+    "canvas":{"width":1414,"height":2000},
+    "minus":{"x":339,"y":555,"w":100,"h":38,"fontSize":32,"radius":9,"label":"−"},
+    "plus":{"x":446,"y":555,"w":100,"h":38,"fontSize":32,"radius":9,"label":"+"}
+  }
+}
