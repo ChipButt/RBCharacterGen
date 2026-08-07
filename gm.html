@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>600 Second D&D — Game Master</title>
-<link rel="stylesheet" href="./gm_v3.css?v=20260807-0535">
+<link rel="stylesheet" href="./gm_v3.css?v=20260807-0600">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 <h1>Game Master Story Generator</h1>
 <p class="lead">Build a ten-minute adventure, choose a puzzle, a battle, or both, then run it from a single GM sheet.</p>
 <section class="panel"><h2>1. Story</h2><div class="grid2"><label>Location / Setting<select id="settingSelect"></select></label><label>Problem<select id="problemSelect"></select></label></div></section>
-<section class="panel"><h2>2. Obstacles</h2><div class="grid2"><div class="option" id="puzzleOption"><label class="toggle"><input id="usePuzzle" type="checkbox" checked> Puzzle card</label><select id="puzzleSelect"></select><div class="card-preview" id="puzzlePreview"></div></div><div class="option disabled" id="monsterOption"><label class="toggle"><input id="useMonster" type="checkbox"> Monster card</label><select id="monsterSelect"></select><div class="card-preview" id="monsterPreview"></div></div></div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
+<section class="panel"><h2>2. Obstacles</h2><div class="grid2"><div class="option" id="puzzleOption"><label class="toggle"><input id="usePuzzle" type="checkbox" checked> Puzzle card</label><select id="puzzleSelect" class="hidden-select"></select><button class="card-preview card-select-preview" id="puzzlePreview" type="button" aria-label="Selected puzzle card"></button></div><div class="option disabled" id="monsterOption"><label class="toggle"><input id="useMonster" type="checkbox"> Monster card</label><select id="monsterSelect" class="hidden-select"></select><button class="card-preview card-select-preview" id="monsterPreview" type="button" aria-label="Selected monster card"></button></div></div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
 </main>
 
 <section class="run-view" id="runView">
@@ -27,8 +27,10 @@
     <img class="asset bottom-stroke" src="./600_Second_DnD_Individual_Assets/08_bottom_brush_stroke.png" alt="">
 
     <div class="sheet-text sheet-title" id="runTitle"></div>
+
     <div class="sheet-text setup-heading">30 SECOND SETUP</div>
     <div class="sheet-text setup-text" id="setupText"></div>
+
     <div class="sheet-text npc-heading">MAIN NPC</div>
     <div class="sheet-text npc-name-role" id="npcNameRole"></div>
     <div class="sheet-text npc-traits" id="npcTraits"></div>
@@ -57,8 +59,9 @@
   </div>
   <button class="exit-run" id="exitRun" type="button">BACK TO BUILDER</button>
 </section>
+
 <div class="card-modal" id="cardModal"><button class="modal-close" id="modalClose" type="button">CLOSE</button><img id="modalImage" alt="Selected encounter card"></div>
 
-<script src="./gm_v3.js?v=20260807-0515"></script>
+<script src="./gm_v3.js?v=20260807-0600"></script>
 </body>
 </html>
