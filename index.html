@@ -13,7 +13,7 @@
 <div id="loading">Loading Character Generator…</div>
 <script>
 (async()=>{
-  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0045',{cache:'no-store'});
+  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0105',{cache:'no-store'});
   if(!response.ok) throw new Error('Could not load app source: '+response.status);
   let app=await response.text();
 
@@ -26,6 +26,39 @@
   app=app.replace("if(!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(()=>{});",'');
   app=app.replace("if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});",'');
   app=app.replace('>EDIT CHARACTER</button>','>BACK TO EDIT</button>');
+
+  app=app.replace('  function preloadSpeciesPortraits(){', `  function keyOutGreen(img){
+    const c=document.createElement('canvas');
+    c.width=img.naturalWidth||img.width;
+    c.height=img.naturalHeight||img.height;
+    const gtx=c.getContext('2d',{willReadFrequently:true});
+    gtx.drawImage(img,0,0);
+    const imageData=gtx.getImageData(0,0,c.width,c.height);
+    const d=imageData.data;
+    for(let i=0;i<d.length;i+=4){
+      const r=d[i], g=d[i+1], b=d[i+2], a=d[i+3];
+      const dominance=g-Math.max(r,b);
+      if(a>0 && g>105 && r<145 && b<145 && dominance>34){
+        const strength=Math.min(1,(dominance-34)/90);
+        d[i+1]=Math.round(g*(1-strength*.35));
+        d[i]=Math.min(255,Math.round(r+strength*10));
+        d[i+2]=Math.min(255,Math.round(b+strength*8));
+        if(dominance>55) d[i+3]=Math.round(a*(1-strength*.92));
+      }
+    }
+    gtx.putImageData(imageData,0,0);
+    return c;
+  }
+
+  function preloadSpeciesPortraits(){`);
+  app=app.replace('img.onload=()=>{ speciesPortraits[species]=img; resolve(); };','img.onload=()=>{ speciesPortraits[species]=keyOutGreen(img); resolve(); };');
+
+  app=app.replace(
+    'const s=Math.max(w/iw,h/ih); const dw=iw*s, dh=ih*s;\\n    ctx.drawImage(img,x+(w-dw)/2,y+(h-dh)/2,dw,dh);',
+    'const s=Math.min(w/iw,h/ih)*0.96; const dw=iw*s, dh=ih*s;\\n    const cx=x+w*0.54, cy=y+h*0.47;\\n    ctx.drawImage(img,cx-dw/2,cy-dh/2,dw,dh);'
+  );
+  app=app.replace('ctx.rect(505,22,909,925);','ctx.rect(600,22,814,925);');
+  app=app.replace('drawCoverImage(portraitImg,505,22,909,925);','drawCoverImage(portraitImg,600,22,814,925);');
 
   app=app.replace("{name:'Magic Missile',ability:'CHA',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'CHA',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
   app=app.replace("{name:'Magic Missile',ability:'INT',dice:'3d4+3',type:'Force',desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The darts can strike one target or be divided among several.'}","{name:'Magic Missile',ability:'INT',dice:'1d4+1',type:'Force / missile',auto:true,desc:'Create three magical darts that automatically hit creatures you can see within 120 ft. The listed damage is PER missile; all three can hit one target or be split among targets.'}");
@@ -63,10 +96,9 @@ body.play-mode .sheet-stage{display:flex!important;width:100vw!important;height:
 body.play-mode #sheetWrap{position:relative!important;width:min(100vw,calc(100dvh * .707))!important;max-width:none!important;flex:0 0 auto!important;z-index:1000!important}
 body.play-mode #sheetCanvas{display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;height:auto!important;background:#fff!important;box-shadow:none!important}
 body.play-mode #hpPlayControls{display:block!important;position:absolute!important;inset:0!important;z-index:1002!important;pointer-events:none!important}
-/* HP controls sit outside the actual HP text box. */
-body.play-mode .hp-step{width:32px!important;height:22px!important;aspect-ratio:auto!important;padding:0!important;border:2px solid #D10300!important;border-radius:4px!important;background:#fff!important;color:#D10300!important;font-size:19px!important;line-height:19px!important;box-shadow:0 2px 6px rgba(0,0,0,.2)!important;pointer-events:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important}
-body.play-mode #hpMinusBtn{left:25.6%!important;top:28.55%!important;transform:translate(-50%,-50%)!important}
-body.play-mode #hpPlusBtn{left:34.0%!important;top:28.55%!important;transform:translate(-50%,-50%)!important}
+body.play-mode .hp-step{width:28px!important;height:18px!important;aspect-ratio:auto!important;padding:0!important;border:2px solid #D10300!important;border-radius:4px!important;background:#fff!important;color:#D10300!important;font-size:16px!important;line-height:16px!important;box-shadow:0 2px 5px rgba(0,0,0,.18)!important;pointer-events:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important}
+body.play-mode #hpMinusBtn{left:12.0%!important;top:28.8%!important;transform:translate(-50%,-50%)!important}
+body.play-mode #hpPlusBtn{left:27.0%!important;top:28.8%!important;transform:translate(-50%,-50%)!important}
 body.play-mode .exit-play{display:block!important;position:fixed!important;top:auto!important;bottom:12px!important;right:12px!important;z-index:1005!important;padding:8px 12px!important;border-radius:999px!important;background:rgba(20,20,20,.88)!important;color:#fff!important;font-size:11px!important;font-weight:800!important}
 </style>`;
   app=app.replace('</head>',css+'</head>');
