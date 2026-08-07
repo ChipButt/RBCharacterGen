@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>600 Second D&D — Game Master</title>
-<link rel="stylesheet" href="./gm_v2.css?v=20260807-0435">
+<link rel="stylesheet" href="./gm_v3.css?v=20260807-0515">
 </head>
 <body>
 
@@ -17,35 +17,48 @@
 <section class="panel"><h2>1. Story</h2><div class="grid2"><label>Location / Setting<select id="settingSelect"></select></label><label>Problem<select id="problemSelect"></select></label></div></section>
 <section class="panel"><h2>2. Obstacles</h2><div class="grid2"><div class="option" id="puzzleOption"><label class="toggle"><input id="usePuzzle" type="checkbox" checked> Puzzle card</label><select id="puzzleSelect"></select><div class="card-preview" id="puzzlePreview"></div></div><div class="option disabled" id="monsterOption"><label class="toggle"><input id="useMonster" type="checkbox"> Monster card</label><select id="monsterSelect"></select><div class="card-preview" id="monsterPreview"></div></div></div><div id="bothWarning" class="warning">Puzzle + battle is HARD MODE in a 600-second game. It can work, but you will probably need to accelerate one encounter and be ready to cut straight to the ending.</div><div class="actions"><button class="btn secondary" id="randomBtn" type="button">RANDOMISE STORY</button><button class="btn primary" id="runBtn" type="button">RUN STORY NOW</button></div><div id="selectionError" class="error">Choose at least a puzzle or a monster.</div></section>
 </main>
+
 <section class="run-view" id="runView">
   <div class="gm-sheet">
     <img class="asset roll-logo" src="./600_Second_DnD_Individual_Assets/01_roll_britannia_logo.png" alt="">
     <img class="asset dnd-title" src="./600_Second_DnD_Individual_Assets/02_600_second_dnd_title.png" alt="">
     <img class="asset top-stroke" src="./600_Second_DnD_Individual_Assets/03_top_brush_stroke.png" alt="">
     <img class="asset middle-stroke" src="./600_Second_DnD_Individual_Assets/04_middle_brush_stroke.png" alt="">
-    <img class="asset left-pill" src="./600_Second_DnD_Individual_Assets/05_small_left_pill.png" alt="">
-    <img class="asset center-pill" src="./600_Second_DnD_Individual_Assets/06_small_center_pill.png" alt="">
-    <img class="asset right-pill" src="./600_Second_DnD_Individual_Assets/07_small_right_pill.png" alt="">
     <img class="asset bottom-stroke" src="./600_Second_DnD_Individual_Assets/08_bottom_brush_stroke.png" alt="">
+
     <div class="sheet-text sheet-title" id="runTitle"></div>
-    <div class="sheet-text setup"><div class="label">30 Second Setup</div><span id="setupText"></span></div>
-    <div class="sheet-text npc"><div class="label">Main NPC</div><b id="npcName"></b> — <span id="npcRole"></span><br><span id="npcTraits"></span></div>
-    <div class="sheet-text quote" id="npcQuote"></div>
-    <div class="sheet-text info-left">GM</div>
-    <div class="sheet-text info-one" id="modeText"></div>
-    <div class="sheet-text info-two">600<br>SECONDS</div>
-    <div class="sheet-text story-copy">
-      <h3>Story Skeleton</h3><ol class="beats" id="beatList"></ol>
-      <div class="mini-head">3 Ways To Add Time Pressure</div><ol class="mini-list" id="pressureList"></ol>
-      <div class="mini-head">3 Ways To Hurry The Ending</div><ol class="mini-list" id="hurryList"></ol>
-      <div class="ending"><b>Ending:</b> <span id="endingText"></span></div>
-    </div>
-    <div class="cards-area" id="cardsArea"></div>
-    <div class="card-labels" id="cardLabels"></div><div class="tap-note" id="tapNote"></div>
+    <div class="sheet-text setup-heading">30 SECOND SETUP</div>
+    <div class="sheet-text setup-text" id="setupText"></div>
+    <div class="sheet-text npc-heading">MAIN NPC</div>
+    <div class="sheet-text npc-name-role" id="npcNameRole"></div>
+    <div class="sheet-text npc-traits" id="npcTraits"></div>
+    <div class="sheet-text npc-quote" id="npcQuote"></div>
+
+    <div class="sheet-text story-heading">STORY SKELETON</div>
+    <div class="sheet-text story-beats" id="storyBeats"></div>
+    <div class="sheet-text pressure-heading">3 WAYS TO ADD TIME PRESSURE</div>
+    <div class="sheet-text pressure-list" id="pressureList"></div>
+    <div class="sheet-text hurry-heading">3 WAYS TO HURRY THE ENDING</div>
+    <div class="sheet-text hurry-list" id="hurryList"></div>
+    <div class="sheet-text ending-text" id="endingText"></div>
+
+    <button class="encounter-tab monster-tab" id="monsterTab" type="button" hidden>
+      <img src="./600_Second_DnD_Individual_Assets/06_small_center_pill.png" alt="">
+      <span>MONSTER</span>
+    </button>
+    <button class="encounter-tab puzzle-tab" id="puzzleTab" type="button" hidden>
+      <img src="./600_Second_DnD_Individual_Assets/07_small_right_pill.png" alt="">
+      <span>PUZZLE</span>
+    </button>
+
+    <img class="encounter-card puzzle-card" id="runPuzzleCard" alt="Selected puzzle card" hidden>
+    <img class="encounter-card monster-card" id="runMonsterCard" alt="Selected monster card" hidden>
+    <div class="sheet-text tap-note" id="tapNote">Tap a card to enlarge</div>
   </div>
   <button class="exit-run" id="exitRun" type="button">BACK TO BUILDER</button>
 </section>
 <div class="card-modal" id="cardModal"><button class="modal-close" id="modalClose" type="button">CLOSE</button><img id="modalImage" alt="Selected encounter card"></div>
 
-<script src="./gm_v2.js?v=20260807-0435"></script>
-</body></html>
+<script src="./gm_v3.js?v=20260807-0515"></script>
+</body>
+</html>
