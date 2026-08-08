@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v3';
+const CACHE_NAME='rb600-offline-v4';
 
 const PRECACHE=[
   './',
@@ -76,6 +76,10 @@ function cleanRequestUrl(input){
 
 async function precacheOne(cache,path){
   const url=cleanRequestUrl(path);
+
+  const existing=await cache.match(url,{ignoreSearch:true});
+  if(existing) return true;
+
   try{
     const response=await fetch(new Request(url,{cache:'reload'}));
     if(response && response.ok){
@@ -149,8 +153,6 @@ self.addEventListener('fetch',event=>{
     const cached=await cachedResponse(request);
 
     if(cached){
-      // Return immediately from cache. Refresh opportunistically while online,
-      // but never make navigation depend on that refresh completing.
       fetchAndCache(request).catch(()=>{});
       return cached;
     }
