@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v1';
+const CACHE_NAME='rb600-offline-v2';
 
 const PRECACHE=[
   './',
@@ -67,10 +67,39 @@ const PRECACHE=[
   './dnd20_species_headshots_v15/yuan_ti.png'
 ];
 
+function cleanRequestUrl(input){
+  const url=new URL(typeof input==='string'?input:input.url,self.registration.scope);
+  url.search='';
+  url.hash='';
+  return url.toString();
+}
+
+async function precacheOne(cache,path){
+  const url=cleanRequestUrl(path);
+  try{
+    const response=await fetch(new Request(url,{cache:'reload'}));
+    if(response && response.ok){
+      await cache.put(url,response.clone());
+      return {url,ok:true};
+    }
+    console.warn('Offline cache skipped',url,response?.status);
+  }catch(err){
+    console.warn('Offline cache failed',url,err);
+  }
+  return {url,ok:false};
+}
+
+async function warmCache(){
+  const cache=await caches.open(CACHE_NAME);
+  const results=await Promise.allSettled(PRECACHE.map(path=>precacheOne(cache,path)));
+  return results;
+}
+
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
-    const cache=await caches.open(CACHE_NAME);
-    await cache.addAll(PRECACHE.map(url=>new Request(url,{cache:'reload'})));
+    // Cache each resource independently. One missing image must never prevent
+    // the whole service worker from installing.
+    await warmCache();
     await self.skipWaiting();
   })());
 });
@@ -78,30 +107,39 @@ self.addEventListener('install',event=>{
 self.addEventListener('activate',event=>{
   event.waitUntil((async()=>{
     const names=await caches.keys();
-    await Promise.all(names.filter(name=>name.startsWith('rb600-offline-')&&name!==CACHE_NAME).map(name=>caches.delete(name)));
+    await Promise.all(
+      names
+        .filter(name=>name.startsWith('rb600-offline-') && name!==CACHE_NAME)
+        .map(name=>caches.delete(name))
+    );
     await self.clients.claim();
   })());
 });
 
-async function networkFirst(request){
+self.addEventListener('message',event=>{
+  if(event.data?.type!=='WARM_CACHE') return;
+  event.waitUntil((async()=>{
+    await warmCache();
+    if(event.ports?.[0]) event.ports[0].postMessage({type:'OFFLINE_READY'});
+  })());
+});
+
+async function cachedResponse(request){
   const cache=await caches.open(CACHE_NAME);
-  try{
-    const response=await fetch(request);
-    if(response&&response.ok) await cache.put(request,response.clone());
-    return response;
-  }catch(err){
-    const cached=await cache.match(request,{ignoreSearch:true});
-    if(cached) return cached;
-    throw err;
-  }
+  return (
+    await cache.match(request,{ignoreSearch:true}) ||
+    await cache.match(cleanRequestUrl(request),{ignoreSearch:true})
+  );
 }
 
-async function cacheFirst(request){
+async function fetchAndCache(request){
   const cache=await caches.open(CACHE_NAME);
-  const cached=await cache.match(request,{ignoreSearch:true});
-  if(cached) return cached;
   const response=await fetch(request);
-  if(response&&response.ok) await cache.put(request,response.clone());
+  if(response && response.ok){
+    // Store a query-free key as well, so cache-busting query strings still
+    // resolve offline later.
+    await cache.put(cleanRequestUrl(request),response.clone());
+  }
   return response;
 }
 
@@ -112,20 +150,22 @@ self.addEventListener('fetch',event=>{
   const url=new URL(request.url);
   if(url.origin!==self.location.origin) return;
 
-  const networkPreferred=
-    request.mode==='navigate'||
-    request.destination==='document'||
-    request.destination==='script'||
-    request.destination==='style'||
-    request.destination==='worker';
-
   event.respondWith((async()=>{
+    const cached=await cachedResponse(request);
+
+    // For pages and local app resources, use the cache immediately. If the
+    // network is available, refresh the cached copy in the background.
+    if(cached){
+      event.waitUntil(fetchAndCache(request).catch(()=>{}));
+      return cached;
+    }
+
     try{
-      return networkPreferred ? await networkFirst(request) : await cacheFirst(request);
+      return await fetchAndCache(request);
     }catch(err){
-      if(request.mode==='navigate'){
-        const cache=await caches.open(CACHE_NAME);
-        return (await cache.match(request,{ignoreSearch:true})) || (await cache.match('./index.html'));
+      if(request.mode==='navigate' || request.destination==='document'){
+        const fallback=await cachedResponse(new Request(new URL('./index.html',self.registration.scope)));
+        if(fallback) return fallback;
       }
       throw err;
     }
