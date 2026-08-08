@@ -29,7 +29,7 @@
     if(preparation) return preparation;
 
     preparation=(async()=>{
-      const registration=await navigator.serviceWorker.register('./sw.js?v=20260808-2',{scope:'./'});
+      const registration=await navigator.serviceWorker.register('./sw.js?v=20260808-4',{scope:'./'});
       registration.update().catch(()=>{});
 
       await navigator.serviceWorker.ready;
