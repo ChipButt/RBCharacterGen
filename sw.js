@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v2';
+const CACHE_NAME='rb600-offline-v3';
 
 const PRECACHE=[
   './',
@@ -80,25 +80,22 @@ async function precacheOne(cache,path){
     const response=await fetch(new Request(url,{cache:'reload'}));
     if(response && response.ok){
       await cache.put(url,response.clone());
-      return {url,ok:true};
+      return true;
     }
     console.warn('Offline cache skipped',url,response?.status);
   }catch(err){
     console.warn('Offline cache failed',url,err);
   }
-  return {url,ok:false};
+  return false;
 }
 
 async function warmCache(){
   const cache=await caches.open(CACHE_NAME);
-  const results=await Promise.allSettled(PRECACHE.map(path=>precacheOne(cache,path)));
-  return results;
+  await Promise.allSettled(PRECACHE.map(path=>precacheOne(cache,path)));
 }
 
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
-    // Cache each resource independently. One missing image must never prevent
-    // the whole service worker from installing.
     await warmCache();
     await self.skipWaiting();
   })());
@@ -136,8 +133,6 @@ async function fetchAndCache(request){
   const cache=await caches.open(CACHE_NAME);
   const response=await fetch(request);
   if(response && response.ok){
-    // Store a query-free key as well, so cache-busting query strings still
-    // resolve offline later.
     await cache.put(cleanRequestUrl(request),response.clone());
   }
   return response;
@@ -153,10 +148,10 @@ self.addEventListener('fetch',event=>{
   event.respondWith((async()=>{
     const cached=await cachedResponse(request);
 
-    // For pages and local app resources, use the cache immediately. If the
-    // network is available, refresh the cached copy in the background.
     if(cached){
-      event.waitUntil(fetchAndCache(request).catch(()=>{}));
+      // Return immediately from cache. Refresh opportunistically while online,
+      // but never make navigation depend on that refresh completing.
+      fetchAndCache(request).catch(()=>{});
       return cached;
     }
 
