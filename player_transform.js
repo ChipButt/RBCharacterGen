@@ -160,6 +160,13 @@ window.rbPlayerTransform=function(app){
   function generatedValueForKey`);
 
   const closeScript='</'+'script>';
-  app=app.replace('</body>','<script src="./player_rules.js?v=20260813-0955">'+closeScript+'</body>');
+  app=app.replace('</body>',
+    '<script src="./player_action_core.js?v=20260813-1030">'+closeScript+
+    '<script src="./player_actions_bard_warlock.js?v=20260813-1030">'+closeScript+
+    '<script src="./player_actions_sorc_wizard.js?v=20260813-1030">'+closeScript+
+    '<script src="./player_actions_divine.js?v=20260813-1030">'+closeScript+
+    '<script src="./player_actions_traits.js?v=20260813-1030">'+closeScript+
+    '<script src="./player_rules.js?v=20260813-1030">'+closeScript+
+    '</body>');
   return app;
 };
