@@ -159,6 +159,7 @@ window.rbPlayerTransform=function(app){
 
   function generatedValueForKey`);
 
-  app=app.replace('</body>','<script src="./player_rules.js?v=20260813-0940"><\\/script></body>');
+  const closeScript='</'+'script>';
+  app=app.replace('</body>','<script src="./player_rules.js?v=20260813-0955">'+closeScript+'</body>');
   return app;
 };
