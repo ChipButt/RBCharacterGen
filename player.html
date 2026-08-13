@@ -7,13 +7,15 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Roll Britannia Character Generator</title>
+  <script src="./offline.js"></script>
+  <script src="./player_transform.js?v=20260813-0940"></script>
   <style>html,body{margin:0;min-height:100%;background:#fff;font-family:Arial,Helvetica,sans-serif}#loading{min-height:100vh;display:flex;align-items:center;justify-content:center;font-weight:800}</style>
 </head>
 <body>
 <div id="loading">Loading Character Generator…</div>
 <script>
 (async()=>{
-  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260807-0330',{cache:'no-store'});
+  const response=await fetch('./600_second_dnd_character_player_v21.html?v=20260813-0940',{cache:'no-store'});
   if(!response.ok) throw new Error('Could not load app source: '+response.status);
   let app=await response.text();
 
@@ -67,6 +69,8 @@
   app=app.replace("  function attackBonus(atk){\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }","  function attackBonus(atk){\n    if(atk.auto) return 'Auto';\n    const ab=classData[state.cls]?.spell && atk.ability===classData[state.cls].spell ? classData[state.cls].spell : atk.ability;\n    return modifier(state.stats[ab]||10)+state.prof;\n  }");
   app=app.replace("  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }","  function attackDamage(atk){\n    if(atk.type==='Bonus') return atk.dice;\n    const spellAbility=classData[state.cls]?.spell;\n    const isSpellAttack=spellAbility && atk.ability===spellAbility;\n    if(isSpellAttack || atk.auto) return `${atk.dice} ${atk.type}`;\n    const mod=modifier(state.stats[atk.ability]||10);\n    const suffix = mod===0?'':(mod>0?`+${mod}`:`${mod}`);\n    return `${atk.dice}${suffix} ${atk.type}`;\n  }");
   app=app.replace("      if(m[2]==='bonus')return fmtMod(attackBonus(atk));","      if(m[2]==='bonus'){const b=attackBonus(atk);return typeof b==='number'?fmtMod(b):b;}");
+
+  if(window.rbPlayerTransform) app=window.rbPlayerTransform(app);
 
   const css=`<style id="production-overrides">
 html,body{background:#fff!important;color:#111!important}
