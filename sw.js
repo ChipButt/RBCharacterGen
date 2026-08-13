@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v4';
+const CACHE_NAME='rb600-offline-v5';
 
 const PRECACHE=[
   './',
@@ -6,11 +6,14 @@ const PRECACHE=[
   './player.html',
   './gm.html',
   './offline.js',
+  './player_transform.js',
+  './player_rules.js',
   './600_second_dnd_character_player_v21.html',
   './600 Second logo.png',
   './gm_v3.css',
   './gm_v3.js',
   './gm_fit.js',
+  './gm_fit_all.js',
   './gm_export.js',
   './gm_export_builder.js',
 
