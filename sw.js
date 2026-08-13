@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v6';
+const CACHE_NAME='rb600-offline-v7';
 
 const PRECACHE=[
   './',
