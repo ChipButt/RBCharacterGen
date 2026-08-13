@@ -15,7 +15,9 @@ window.rbPlayerTransform=function(app){
     render,
     attackBonus,
     attackDamage,
-    fmtMod
+    fmtMod,
+    baseImg,
+    overlayImg
   };`);
 
   app=app.replace(/  function fitStyled\(key,generated\)\{[\s\S]*?\n  \}\n\n  function drawStatStack/,`  function fitStyled(key,generated){
@@ -168,7 +170,8 @@ window.rbPlayerTransform=function(app){
     '<script src="./player_actions_highlevel.js?v=20260813-1045">'+closeScript+
     '<script src="./player_actions_traits.js?v=20260813-1045">'+closeScript+
     '<script src="./player_rules.js?v=20260813-1045">'+closeScript+
-    '<script src="./player_items_sheet_ui.js?v=20260813-1315">'+closeScript+
+    '<script src="./player_actions_sheet_ui.js?v=20260813-1635">'+closeScript+
+    '<script src="./player_items_sheet_ui.js?v=20260813-1635">'+closeScript+
     '</body>');
   return app;
 };
