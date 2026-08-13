@@ -1,8 +1,8 @@
-const CACHE_NAME='rb600-offline-v10';
+const CACHE_NAME='rb600-offline-v11';
 
 const ROOT=[
   './','./index.html','./player.html','./gm.html','./offline.js',
-  './player_transform.js','./player_rules.js','./player_items_sheet_ui.js',
+  './player_transform.js','./player_rules.js','./player_items_sheet_ui.js','./player_actions_sheet_ui.js',
   './player_action_core.js','./player_actions_bard_warlock.js','./player_actions_sorc_wizard.js',
   './player_actions_divine.js','./player_actions_highlevel.js','./player_actions_traits.js',
   './600_second_dnd_character_player_v21.html','./600 Second logo.png',
