@@ -168,6 +168,7 @@ window.rbPlayerTransform=function(app){
     '<script src="./player_actions_highlevel.js?v=20260813-1045">'+closeScript+
     '<script src="./player_actions_traits.js?v=20260813-1045">'+closeScript+
     '<script src="./player_rules.js?v=20260813-1045">'+closeScript+
+    '<script src="./player_items_sheet_ui.js?v=20260813-1315">'+closeScript+
     '</body>');
   return app;
 };
