@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v8';
+const CACHE_NAME='rb600-offline-v9';
 
 const PRECACHE=[
   './',
@@ -12,6 +12,7 @@ const PRECACHE=[
   './player_actions_bard_warlock.js',
   './player_actions_sorc_wizard.js',
   './player_actions_divine.js',
+  './player_actions_highlevel.js',
   './player_actions_traits.js',
   './600_second_dnd_character_player_v21.html',
   './600 Second logo.png',
