@@ -1,4 +1,4 @@
-const CACHE_NAME='rb600-offline-v5';
+const CACHE_NAME='rb600-offline-v6';
 
 const PRECACHE=[
   './',
@@ -79,10 +79,8 @@ function cleanRequestUrl(input){
 
 async function precacheOne(cache,path){
   const url=cleanRequestUrl(path);
-
   const existing=await cache.match(url,{ignoreSearch:true});
   if(existing) return true;
-
   try{
     const response=await fetch(new Request(url,{cache:'reload'}));
     if(response && response.ok){
@@ -154,12 +152,10 @@ self.addEventListener('fetch',event=>{
 
   event.respondWith((async()=>{
     const cached=await cachedResponse(request);
-
     if(cached){
       fetchAndCache(request).catch(()=>{});
       return cached;
     }
-
     try{
       return await fetchAndCache(request);
     }catch(err){
