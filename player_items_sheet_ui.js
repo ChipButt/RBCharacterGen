@@ -1,6 +1,14 @@
 (()=>{
   const HEADER='data:image/webp;base64,UklGRuIDAABXRUJQVlA4INYDAABQHwCdASpvAV8APp1MoEwlpCMiIbSbCLATiWlu+F8U+jcy/tGEOiq9XylH4qy//JcIPuJlH7dPnn9j71/oM/kH+c1iX/Ieg3/kehb6C9GIeFDitaxvucpgdJMDpJgdJMDpJgdJMDpJOuiLBUUst5UZu8E1TaeLZWvRYx7PPO4vJNrTE9DJ3fhZJ2KqmI9/eQynib0ptwFwVivnmBYIGWTKARDd7sx22OAIQvxvO+77MusUHdqksLzg0YyzzSUjdf3uzmB6dPzklA4rWsd4DXlhFD32W9Bo6O2U2unIw8L3OdRdPFRRNbxi/eqJitaw6wRfuwmYn25RAhCCfDcDhjTVsaIAAP75sQAAAHq8oDJCnH+GglNWtXWJSNiIrphAiq07qxA19paAnhVLI5MPfVbT633/r7e3knyZT4tB/iQ6rKSCz91kvWN2rRS5ggzPqhK21Dg8U9s8MS+hqYuhXEQmdo5ARfSp4GUIUTcxV9cB5QNH1USI8cHk6rYVQuOsBk4qXuu+SLndE8fm2eKMJF1fzXCSThLbnBlhIMKkKqvjF6NEaWoRoV3Wcj+xQwcvR4GAH13lTrbULO7FTMQU8/ewWZCYTUyYIBlg4LR2NNoejIFXwbsG5uCxeImydulHhxpWKC9amuDyCtRe603i+c2Ayfi7dJTdB6aO9v1nFTdBwX/k8HJq99C+LO6w/lWET6do2ENtogF2G4uJ+DK1p3Ex6b/adZmz5Nq/SxKc2y82xS4PtcwKyxObekqq7oMYYWGcpJxfGDPKLePXoNYcAlr7/XbA1oM8EKvlPvFZ+Z+BB6MTDoi1rp6t112Vzq6YydrWzWBSyzkgOycx6LqOGsHi10fpdMc9Jg1eUWH1Q7Ejemphh9ofefL4/Mbmf9Cl6AZb4Y5rwMTArCx2t/QELrrKl+3lFuLsEYy/K269DBv+2/yMR5Evl8yIM4GjOy/fhJFxq836EsDahZ/XgTmblfpdJIWA1783WsVXb7nuOmNI1nx5oY1WRPHgXN1LtjfwuH2D7m8CHNbSGJWAqguv55m/HAWvIT0yp++8zBdFATp9ov+m+B7DfUX1WRRi/CjiOJTh0rJ0RCF/R0EKimeCI53dPGdqIVnSilP+a6LYnUX1czBp1xjLnihGMXNt1gEAAg8YwrCiyuUQ6w80xPdsqYvqJjKkyG8CNz03+k07hf3+5w7aJk8M+eIisctkFJJVw3GlV0quGffNWpssmvbuy//hLzoHcuuflARLVvXlPen3d5PoeQdp2pJzd9vnqrAF9HP5HzwVs1BhfI5r2vjrCeIYVIAAAAAA';
 
+  function loadActionSheetUi(){
+    if(document.querySelector('script[data-rb-action-sheet-ui]')||document.getElementById('rb-actions-sheet-ui'))return;
+    const script=document.createElement('script');
+    script.src='./player_actions_sheet_ui.js?v=20260813-1515';
+    script.dataset.rbActionSheetUi='1';
+    document.head.appendChild(script);
+  }
+
   function install(){
     if(document.getElementById('rb-items-sheet-ui'))return;
     const style=document.createElement('style');
@@ -32,5 +40,6 @@
     observer.observe(document.documentElement,{childList:true,subtree:true});
     setTimeout(()=>observer.disconnect(),12000);
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
+  const start=()=>{loadActionSheetUi();install();};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
