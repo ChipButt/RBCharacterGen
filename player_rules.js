@@ -3,7 +3,8 @@
     'Flurry of Blows':2,
     'Divine Smite':2,
     'Thunderous Smite':2,
-    'Hunter’s Mark':2
+    'Hunter’s Mark':2,
+    'Hail of Thorns':2
   };
 
   const UNIVERSAL_ACTIONS=[
@@ -17,6 +18,7 @@
   const ITEM_DESC_MAX=150;
 
   function addStyles(){
+    if(document.getElementById('rb-structured-edit-styles'))return;
     const style=document.createElement('style');
     style.id='rb-structured-edit-styles';
     style.textContent=`
@@ -28,7 +30,7 @@
       .rb-action-row,.rb-item-row{border:1px solid #d4d4d4;border-radius:10px;padding:10px;background:#fafafa}
       .rb-action-row h3,.rb-item-row h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#555}
       .rb-action-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:7px}
-      .rb-readout{display:block;width:100%;min-height:38px;margin-top:5px;border:1px solid #d3d3d3;border-radius:8px;padding:9px 10px;background:#f0f0f0;color:#222;font-size:12px;line-height:1.35}
+      .rb-readout{display:block;width:100%;min-height:38px;margin-top:5px;border:1px solid #d3d3d3;border-radius:8px;padding:9px 10px;background:#f0f0f0;color:#222;font-size:12px;line-height:1.35;white-space:normal}
       .rb-action-desc{min-height:68px}
       .rb-item-row textarea{min-height:78px;resize:vertical}
       .rb-derived{background:#f0f0f0!important;color:#555!important;cursor:not-allowed}
@@ -58,7 +60,7 @@
       };
       if(tryNow())return;
       const timer=setInterval(()=>{if(tryNow())clearInterval(timer)},25);
-      setTimeout(()=>{clearInterval(timer);tryNow()},10000);
+      setTimeout(()=>{clearInterval(timer);if(!tryNow())resolve(null)},10000);
     });
   }
 
@@ -76,7 +78,6 @@
     const legacyActions=document.getElementById('spellsInput');
     const legacyEquipment=document.getElementById('equipmentInput');
     const editContent=document.getElementById('editCharacterContent');
-
     if(!editContent)return;
 
     const oldGrid=legacySpecies?.closest('.grid.two');
@@ -109,7 +110,7 @@
     actionLabel.textContent='Action rows';
     const actionHelp=document.createElement('div');
     actionHelp.className='rb-help';
-    actionHelp.textContent='Choose an action or spell available to this class and level. Bonus, damage/effect and description are populated automatically.';
+    actionHelp.textContent='Choose an action or spell available to the current class and level. The remaining action fields are filled automatically.';
     const actionList=document.createElement('div');
     actionList.className='rb-action-list';
 
@@ -142,7 +143,7 @@
 
     function ensureActions(state){
       const pool=poolForState(state);
-      if(!state.actions)state.actions=[];
+      if(!Array.isArray(state.actions))state.actions=[];
       state.actions=state.actions.filter(action=>pool.some(option=>option.name===action.name));
       for(const option of pool){
         if(state.actions.length>=4)break;
@@ -232,7 +233,6 @@
       goldNote.className='rb-help';
       goldNote.textContent=`Gold carried: ${gold}`;
       itemList.appendChild(goldNote);
-      api.render();
     }
 
     function guardStats(){
@@ -254,6 +254,8 @@
       if(!state)return;
       speciesSelect.value=state.species;
       classSelect.value=state.cls;
+      if(legacySpecies){legacySpecies.value=state.species;legacySpecies.readOnly=true;}
+      if(legacyClass){legacyClass.value=state.cls;legacyClass.readOnly=true;}
       if(legacySpeed){legacySpeed.value=state.speed;legacySpeed.readOnly=true;}
       if(hpInput){
         hpInput.value=state.hp;
@@ -297,8 +299,8 @@
       api.refreshDerivedStatsAfterPointBuy();
       if(legacyClass)legacyClass.value=cls;
       api.syncInputs();
-      setTimeout(refreshAll,0);
       api.render();
+      setTimeout(refreshAll,0);
     });
 
     levelInput?.addEventListener('change',()=>{
@@ -310,16 +312,13 @@
       state.actions=[];
       api.refreshDerivedStatsAfterPointBuy();
       api.syncInputs();
-      setTimeout(refreshAll,0);
       api.render();
+      setTimeout(refreshAll,0);
     });
 
     document.getElementById('generateBtn')?.addEventListener('click',()=>setTimeout(refreshAll,0));
     document.getElementById('editCharacterToggle')?.addEventListener('click',()=>setTimeout(refreshAll,0));
     statsEditor?.addEventListener('change',()=>setTimeout(()=>{refreshDerivedLabels();renderActions()},0));
-
-    const summary=document.getElementById('summary');
-    if(summary)new MutationObserver(()=>setTimeout(refreshAll,0)).observe(summary,{childList:true,characterData:true,subtree:true});
 
     const starter=setInterval(()=>{
       if(api.getState()){
